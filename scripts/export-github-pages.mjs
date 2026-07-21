@@ -39,6 +39,45 @@ const generatedTargets = [
   "privacy",
 ];
 
+const staticNavigationScript = `<script>
+(() => {
+  const basePath = "${basePath}";
+
+  document.addEventListener("click", (event) => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    const link = event.target.closest?.("a[href]");
+    if (!link || (link.target && link.target !== "_self")) {
+      return;
+    }
+
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin) {
+      return;
+    }
+
+    if (url.pathname !== basePath && !url.pathname.startsWith(\`\${basePath}/\`)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const hasFileExtension = /\\.[a-z0-9]+$/i.test(url.pathname);
+    const pathname = hasFileExtension || url.pathname.endsWith("/") ? url.pathname : \`\${url.pathname}/\`;
+    window.location.assign(\`\${pathname}\${url.search}\${url.hash}\`);
+  }, true);
+})();
+</script>`;
+
 for (const target of generatedTargets) {
   await rm(target, { recursive: true, force: true });
 }
@@ -61,13 +100,13 @@ for (const route of routes) {
     throw new Error(`Failed to export ${route}: ${response.status}`);
   }
 
-  const html = rewriteForPages(await response.text());
+  const html = finalizeHtml(rewriteForPages(await response.text()));
   const outputPath = route === "/" ? "index.html" : join(route.slice(1), "index.html");
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, html);
 }
 
-const notFoundHtml = rewriteForPages(await (await fetch(`${origin}/`)).text());
+const notFoundHtml = finalizeHtml(rewriteForPages(await (await fetch(`${origin}/`)).text()));
 await writeFile("404.html", notFoundHtml);
 
 async function listFiles(dir) {
@@ -101,4 +140,8 @@ function rewriteForPages(value) {
     .replaceAll("http://127.0.0.1:3000", basePath)
     .replaceAll("http://localhost:3000", basePath)
     .replaceAll(`${basePath}${basePath}/`, `${basePath}/`);
+}
+
+function finalizeHtml(value) {
+  return value.replace("<script id=\"_R_\">", `${staticNavigationScript}<script id="_R_">`);
 }

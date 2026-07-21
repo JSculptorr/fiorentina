@@ -44,4 +44,41 @@ D</textarea></label><label class="admin-form__full">Состав и фокус<t
     &quot;partnerButtonLabel&quot;: &quot;Партнёрам&quot;,
     &quot;partnerHref&quot;: &quot;/partners&quot;
   }
-}</textarea><textarea rows="8" placeholder="Сюда можно вставить JSON из экспорта."></textarea><button type="button">Скачать JSON</button><button type="button">Импортировать JSON</button></div></article></section></main><script id="_R_">import("/fiorentina/assets/index-EkhE7qRI.js")</script></body></html><script>self.__VINEXT_RSC_CHUNKS__=self.__VINEXT_RSC_CHUNKS__||[];self.__VINEXT_RSC_CHUNKS__.push("2:I[\"8c0f216c4604\",[],\"Children\",1]\n3:I[\"15c18cfaeeff\",[],\"LayoutSegmentProvider\",1]\n4:I[\"8c0f216c4604\",[],\"Slot\",1]\n5:I[\"593f344dc510\",[],\"RedirectBoundary\",1]\n:HL[\"/fiorentina/assets/index-GOS-PCO0.css\",\"style\"]\n")</script><script>self.__VINEXT_RSC_CHUNKS__=self.__VINEXT_RSC_CHUNKS__||[];self.__VINEXT_RSC_CHUNKS__.push("0:{\"__route\":\"route:/admin\",\"__interceptionContext\":null,\"__layoutIds\":[\"layout:/\"],\"__rootLayout\":\"/\",\"page:/admin\":\"$L1\",\"layout:/\":[[[[\"$\",\"link\",\"css:/assets/index-GOS-PCO0.css\",{\"rel\":\"stylesheet\",\"precedence\":\"vite-rsc/importer-resources\",\"href\":\"/fiorentina/assets/index-GOS-PCO0.css\",\"data-rsc-css-href\":\"/fiorentina/assets/index-GOS-PCO0.css\"}],\"$undefined\"],[\"$\",\"html\",null,{\"lang\":\"ru\",\"children\":[\"$\",\"body\",null,{\"children\":[\"$\",\"$L2\",null,{}]}]}]],null],\"route:/admin\":[[[\"$\",\"meta\",null,{\"charSet\":\"utf-8\"}],[[\"$\",\"title\",\"0\",{\"children\":\"Админка | Viola Community\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"Локальная админка для новостей, трансферов и обложек Viola Community.\"}],[\"$\",\"meta\",\"2\",{\"property\":\"og:title\",\"content\":\"Viola Community\"}],[\"$\",\"meta\",\"3\",{\"property\":\"og:description\",\"content\":\"Независимое сообщество болельщиков ACF Fiorentina: новости, матчи и трансферы.\"}],[\"$\",\"meta\",\"4\",{\"property\":\"og:type\",\"content\":\"website\"}],[\"$\",\"meta\",\"5\",{\"name\":\"twitter:card\",\"content\":\"summary\"}],[\"$\",\"meta\",\"6\",{\"name\":\"twitter:title\",\"content\":\"Viola Community\"}],[\"$\",\"meta\",\"7\",{\"name\":\"twitter:description\",\"content\":\"Независимое сообщество болельщиков ACF Fiorentina: новости, матчи и трансферы.\"}],[\"$\",\"link\",\"8\",{\"rel\":\"shortcut icon\",\"href\":\"/fiorentina/favicon.svg\"}],[\"$\",\"link\",\"9\",{\"rel\":\"icon\",\"href\":\"/fiorentina/favicon.svg\"}]],[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]],[\"$\",\"$L3\",null,{\"segmentMap\":{\"children\":[\"admin\"]},\"children\":[\"$\",\"$L4\",null,{\"id\":\"layout:/\",\"parallelSlots\":\"$undefined\",\"children\":[\"$\",\"$L5\",null,{\"children\":[\"$\",\"$L3\",null,{\"segmentMap\":{\"children\":[]},\"children\":[\"$\",\"$L4\",null,{\"id\":\"page:/admin\"}]}]}]}]}]],\"__layoutFlags\":{\"layout:/\":\"s\"},\"__artifactCompatibility\":{\"schemaVersion\":1,\"graphVersion\":\"app-route-graph:1e282hpwhlw9k\",\"deploymentVersion\":\"e9db0156-7fd7-46f9-b85e-7021ce72d5a6\",\"appElementsSchemaVersion\":1,\"rscPayloadSchemaVersion\":1,\"rootBoundaryId\":\"/\",\"renderEpoch\":null}}\n")</script><script>self.__VINEXT_RSC_CHUNKS__=self.__VINEXT_RSC_CHUNKS__||[];self.__VINEXT_RSC_CHUNKS__.push("6:I[\"9d09c7ce090c\",[],\"LocalAdminPage\",1]\n1:[\"$\",\"$L6\",null,{}]\n")</script><script>self.__VINEXT_RSC_DONE__=true</script>
+}</textarea><textarea rows="8" placeholder="Сюда можно вставить JSON из экспорта."></textarea><button type="button">Скачать JSON</button><button type="button">Импортировать JSON</button></div></article></section></main><script>
+(() => {
+  const basePath = "/fiorentina";
+
+  document.addEventListener("click", (event) => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    const link = event.target.closest?.("a[href]");
+    if (!link || (link.target && link.target !== "_self")) {
+      return;
+    }
+
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin) {
+      return;
+    }
+
+    if (url.pathname !== basePath && !url.pathname.startsWith(`${basePath}/`)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const hasFileExtension = /\.[a-z0-9]+$/i.test(url.pathname);
+    const pathname = hasFileExtension || url.pathname.endsWith("/") ? url.pathname : `${url.pathname}/`;
+    window.location.assign(`${pathname}${url.search}${url.hash}`);
+  }, true);
+})();
+</script><script id="_R_">import("/fiorentina/assets/index-EkhE7qRI.js")</script></body></html><script>self.__VINEXT_RSC_CHUNKS__=self.__VINEXT_RSC_CHUNKS__||[];self.__VINEXT_RSC_CHUNKS__.push("2:I[\"8c0f216c4604\",[],\"Children\",1]\n3:I[\"15c18cfaeeff\",[],\"LayoutSegmentProvider\",1]\n4:I[\"8c0f216c4604\",[],\"Slot\",1]\n5:I[\"593f344dc510\",[],\"RedirectBoundary\",1]\n:HL[\"/fiorentina/assets/index-GOS-PCO0.css\",\"style\"]\n")</script><script>self.__VINEXT_RSC_CHUNKS__=self.__VINEXT_RSC_CHUNKS__||[];self.__VINEXT_RSC_CHUNKS__.push("0:{\"__route\":\"route:/admin\",\"__interceptionContext\":null,\"__layoutIds\":[\"layout:/\"],\"__rootLayout\":\"/\",\"page:/admin\":\"$L1\",\"layout:/\":[[[[\"$\",\"link\",\"css:/assets/index-GOS-PCO0.css\",{\"rel\":\"stylesheet\",\"precedence\":\"vite-rsc/importer-resources\",\"href\":\"/fiorentina/assets/index-GOS-PCO0.css\",\"data-rsc-css-href\":\"/fiorentina/assets/index-GOS-PCO0.css\"}],\"$undefined\"],[\"$\",\"html\",null,{\"lang\":\"ru\",\"children\":[\"$\",\"body\",null,{\"children\":[\"$\",\"$L2\",null,{}]}]}]],null],\"route:/admin\":[[[\"$\",\"meta\",null,{\"charSet\":\"utf-8\"}],[[\"$\",\"title\",\"0\",{\"children\":\"Админка | Viola Community\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"Локальная админка для новостей, трансферов и обложек Viola Community.\"}],[\"$\",\"meta\",\"2\",{\"property\":\"og:title\",\"content\":\"Viola Community\"}],[\"$\",\"meta\",\"3\",{\"property\":\"og:description\",\"content\":\"Независимое сообщество болельщиков ACF Fiorentina: новости, матчи и трансферы.\"}],[\"$\",\"meta\",\"4\",{\"property\":\"og:type\",\"content\":\"website\"}],[\"$\",\"meta\",\"5\",{\"name\":\"twitter:card\",\"content\":\"summary\"}],[\"$\",\"meta\",\"6\",{\"name\":\"twitter:title\",\"content\":\"Viola Community\"}],[\"$\",\"meta\",\"7\",{\"name\":\"twitter:description\",\"content\":\"Независимое сообщество болельщиков ACF Fiorentina: новости, матчи и трансферы.\"}],[\"$\",\"link\",\"8\",{\"rel\":\"shortcut icon\",\"href\":\"/fiorentina/favicon.svg\"}],[\"$\",\"link\",\"9\",{\"rel\":\"icon\",\"href\":\"/fiorentina/favicon.svg\"}]],[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]],[\"$\",\"$L3\",null,{\"segmentMap\":{\"children\":[\"admin\"]},\"children\":[\"$\",\"$L4\",null,{\"id\":\"layout:/\",\"parallelSlots\":\"$undefined\",\"children\":[\"$\",\"$L5\",null,{\"children\":[\"$\",\"$L3\",null,{\"segmentMap\":{\"children\":[]},\"children\":[\"$\",\"$L4\",null,{\"id\":\"page:/admin\"}]}]}]}]}]],\"__layoutFlags\":{\"layout:/\":\"s\"},\"__artifactCompatibility\":{\"schemaVersion\":1,\"graphVersion\":\"app-route-graph:1e282hpwhlw9k\",\"deploymentVersion\":\"e9db0156-7fd7-46f9-b85e-7021ce72d5a6\",\"appElementsSchemaVersion\":1,\"rscPayloadSchemaVersion\":1,\"rootBoundaryId\":\"/\",\"renderEpoch\":null}}\n")</script><script>self.__VINEXT_RSC_CHUNKS__=self.__VINEXT_RSC_CHUNKS__||[];self.__VINEXT_RSC_CHUNKS__.push("6:I[\"9d09c7ce090c\",[],\"LocalAdminPage\",1]\n1:[\"$\",\"$L6\",null,{}]\n")</script><script>self.__VINEXT_RSC_DONE__=true</script>
