@@ -6,6 +6,7 @@ import type { MatchEvent, MatchItem, MatchLineupGroup, MatchStat } from "@/src/d
 import type { NewsArticle, NewsCategory, TransferItem } from "@/src/data/news";
 
 const STORAGE_KEY = "viola-community-content-v1";
+const REMOTE_CONTENT_PATH = "/content/viola-content.json";
 
 export type LocalContent = {
   articles: NewsArticle[];
@@ -181,6 +182,14 @@ export function readLocalContent(): LocalContent {
   }
 }
 
+export function hasLocalContent() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return Boolean(window.localStorage.getItem(STORAGE_KEY));
+}
+
 export function writeLocalContent(content: LocalContent) {
   if (typeof window === "undefined") {
     return;
@@ -190,13 +199,37 @@ export function writeLocalContent(content: LocalContent) {
   window.dispatchEvent(new Event("viola-content-updated"));
 }
 
+export async function readPublishedContent(): Promise<LocalContent | null> {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  try {
+    const response = await fetch(getPublishedContentUrl(), { cache: "no-store" });
+    if (!response.ok) {
+      return null;
+    }
+
+    return normalizeContent(await response.json());
+  } catch {
+    return null;
+  }
+}
+
 export function useLocalContent() {
   const [content, setContent] = useState<LocalContent>(emptyContent);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const load = () => {
-      setContent(readLocalContent());
+    const load = async () => {
+      if (hasLocalContent()) {
+        setContent(readLocalContent());
+        setHydrated(true);
+        return;
+      }
+
+      const publishedContent = await readPublishedContent();
+      setContent(publishedContent ?? readLocalContent());
       setHydrated(true);
     };
 
@@ -220,6 +253,12 @@ export function useLocalContent() {
     hydrated,
     saveContent,
   };
+}
+
+function getPublishedContentUrl() {
+  const basePath = window.location.pathname.startsWith("/fiorentina") ? "/fiorentina" : "";
+
+  return `${basePath}${REMOTE_CONTENT_PATH}`;
 }
 
 function normalizeContent(value: unknown): LocalContent {

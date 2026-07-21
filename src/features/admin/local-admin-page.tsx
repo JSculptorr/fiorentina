@@ -32,6 +32,13 @@ import {
   type LocalHomeContent,
   type LocalSettings,
 } from "@/src/lib/local-content";
+import {
+  defaultGitHubPublishSettings,
+  publishContentToGitHub,
+  readGitHubPublishSettings,
+  writeGitHubPublishSettings,
+  type GitHubPublishSettings,
+} from "@/src/lib/github-content";
 
 type ArticleForm = Omit<NewsArticle, "body" | "relatedSlugs"> & {
   bodyText: string;
@@ -116,6 +123,11 @@ export function LocalAdminPage() {
   const [matchForm, setMatchForm] = useState<MatchForm>(emptyMatchForm);
   const [homeForm, setHomeForm] = useState<LocalHomeContent>(defaultLocalHome);
   const [settingsForm, setSettingsForm] = useState<LocalSettings>(defaultLocalSettings);
+  const [githubForm, setGithubForm] = useState<GitHubPublishSettings>(
+    defaultGitHubPublishSettings,
+  );
+  const [githubToken, setGithubToken] = useState("");
+  const [isPublishing, setIsPublishing] = useState(false);
   const [importValue, setImportValue] = useState("");
   const [notice, setNotice] = useState("Локальная админка готова.");
   const allArticles = mergeArticles(articles, baseNews);
@@ -137,6 +149,10 @@ export function LocalAdminPage() {
   useEffect(() => {
     setHomeForm(home);
   }, [home]);
+
+  useEffect(() => {
+    setGithubForm(readGitHubPublishSettings());
+  }, []);
 
   function saveSettings() {
     const nextSettings: LocalSettings = {
@@ -419,6 +435,34 @@ export function LocalAdminPage() {
     link.download = "viola-local-content.json";
     link.click();
     URL.revokeObjectURL(url);
+  }
+
+  async function publishToGitHub() {
+    const token = githubToken.trim();
+
+    if (!token) {
+      setNotice("Вставь GitHub token, чтобы админка могла сохранить JSON в репозиторий.");
+      return;
+    }
+
+    setIsPublishing(true);
+    writeGitHubPublishSettings(githubForm);
+
+    try {
+      await publishContentToGitHub({
+        content: { articles, transfers, matches, home, settings },
+        settings: githubForm,
+        token,
+      });
+      setNotice(
+        "Контент опубликован в GitHub. Через 1-3 минуты GitHub Pages обновит сайт для всех посетителей.",
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Неизвестная ошибка GitHub.";
+      setNotice(`GitHub не принял публикацию: ${message}`);
+    } finally {
+      setIsPublishing(false);
+    }
   }
 
   return (
@@ -1252,6 +1296,60 @@ export function LocalAdminPage() {
             </button>
             <button type="button" onClick={importContent}>
               Импортировать JSON
+            </button>
+          </div>
+        </article>
+
+        <article className="admin-panel admin-panel--wide">
+          <div className="admin-panel__head">
+            <p>GitHub publish</p>
+            <h2>Публикация без VPS</h2>
+          </div>
+          <div className="admin-form">
+            <label>
+              Owner
+              <input
+                value={githubForm.owner}
+                onChange={(event) => setGithubForm({ ...githubForm, owner: event.target.value })}
+              />
+            </label>
+            <label>
+              Repository
+              <input
+                value={githubForm.repo}
+                onChange={(event) => setGithubForm({ ...githubForm, repo: event.target.value })}
+              />
+            </label>
+            <label>
+              Branch
+              <input
+                value={githubForm.branch}
+                onChange={(event) => setGithubForm({ ...githubForm, branch: event.target.value })}
+              />
+            </label>
+            <label>
+              JSON path
+              <input
+                value={githubForm.path}
+                onChange={(event) => setGithubForm({ ...githubForm, path: event.target.value })}
+              />
+            </label>
+            <label className="admin-form__full">
+              GitHub token
+              <input
+                autoComplete="off"
+                placeholder="Fine-grained token with Contents: Read and write"
+                type="password"
+                value={githubToken}
+                onChange={(event) => setGithubToken(event.target.value)}
+              />
+              <span className="admin-field-hint">
+                Token не сохраняется в коде сайта. Он нужен только владельцу админки для записи
+                файла content/viola-content.json в GitHub.
+              </span>
+            </label>
+            <button disabled={isPublishing} type="button" onClick={publishToGitHub}>
+              {isPublishing ? "Публикуем..." : "Опубликовать на GitHub"}
             </button>
           </div>
         </article>
